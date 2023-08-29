@@ -11,6 +11,7 @@ const ButtonComponent = ({size,styleButton,styleTextButton,textbutton,disabled,.
                 size={size}
                 {...rests}
             ><span style={styleTextButton}>{textbutton}</span></Button>
+            
     )
 }
 export default ButtonComponent
