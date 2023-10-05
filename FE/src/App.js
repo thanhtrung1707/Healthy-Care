@@ -10,6 +10,7 @@ import axios from 'axios'
 import { routes } from './routes'
 import { useState } from 'react'
 import Loading from './componets/LoadingComponent/Loading'
+import { Col } from 'antd'
 
 
 function App() {
@@ -63,7 +64,7 @@ function App() {
     dispatch(updateUser({...res?.data, access_token:token, refreshToken: refreshToken}))
   }
   return (
-    <div style={{height: '100vh', width: '100%'}}>
+    <Col style={{height: '100vh', width: '100%'}}>
       <Loading isLoading={isLoading}>
       <Router>
         <Routes>
@@ -81,7 +82,7 @@ function App() {
         </Routes>
       </Router>
       </Loading>
-    </div>
+    </Col>
   )
 }
 export default App

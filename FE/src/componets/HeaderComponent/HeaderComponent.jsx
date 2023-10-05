@@ -45,12 +45,12 @@ const HeaderComponent = ({isHiddenSearch = false, isHiddenCard = false}) => {
 
     const content = (
         <div>
-          <WrapperContentPopup onClick={() => handleClickNavigate('profile')}>Thông tin người dùng</WrapperContentPopup>
+          <WrapperContentPopup onClick={() => handleClickNavigate('profile')}>Infomation User</WrapperContentPopup>
           {user?.isAdmin && (
-          <WrapperContentPopup onClick={() => handleClickNavigate('admin')}>Quản lý hệ thống</WrapperContentPopup>
+          <WrapperContentPopup onClick={() => handleClickNavigate('admin')}>Manager System</WrapperContentPopup>
           )}
-          <WrapperContentPopup onClick={() => handleClickNavigate('my-order')}>Đơn hàng của tôi</WrapperContentPopup>
-          <WrapperContentPopup onClick={() => handleClickNavigate()}>Đăng Xuất</WrapperContentPopup>
+          <WrapperContentPopup onClick={() => handleClickNavigate('my-order')}>My order</WrapperContentPopup>
+          <WrapperContentPopup onClick={() => handleClickNavigate()}>logout</WrapperContentPopup>
           
         </div>
       )
@@ -78,7 +78,7 @@ const HeaderComponent = ({isHiddenSearch = false, isHiddenCard = false}) => {
       }
 
     return(
-        <div style={{  heiht: '100%', width: '100%', display: 'flex',background: '#9255FD', justifyContent: 'center' }}>
+        <Col style={{  heiht: '100%', width: '100%', display: 'flex',background: '#9255FD', justifyContent: 'center' }}>
             <WrapperHeader style={{justifyContent:isHiddenSearch && isHiddenCard ? 'space-between': 'unset'}}>
             <Col span={4}>
                 <WrapperTextHeader style={{cursor:'pointer'}} onClick={() => {navigate('/')}}>Healthy Care</WrapperTextHeader>
@@ -115,9 +115,8 @@ const HeaderComponent = ({isHiddenSearch = false, isHiddenCard = false}) => {
                     </>
                 ) :(
                 <div onClick={handleNavigateLogin} style={{ cursor: 'pointer'}}>
-                    <WrapperTextHeaderSmall>Đăng Nhập/Đăng Ký</WrapperTextHeaderSmall>
+                    <WrapperTextHeaderSmall>login</WrapperTextHeaderSmall>
                     <div>
-                    <WrapperTextHeaderSmall>Tài Khoản</WrapperTextHeaderSmall>
                     <CaretDownOutlined />
                     </div>
                 </div>
@@ -130,14 +129,14 @@ const HeaderComponent = ({isHiddenSearch = false, isHiddenCard = false}) => {
                     <Badge count={order?.orderItems?.length} size="small">
             <ShoppingCartOutlined style={{ fontSize:'30px',color:'#fff'}} />
             </Badge>
-            <WrapperTextHeaderSmall>Giỏ Hàng</WrapperTextHeaderSmall>
+            <WrapperTextHeaderSmall>Cart</WrapperTextHeaderSmall>
             </div>
             </div>
             )}
             
             </Col>
             </WrapperHeader>
-        </div>
+        </Col>
     )
 }
 export default HeaderComponent

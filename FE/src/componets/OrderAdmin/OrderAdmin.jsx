@@ -155,12 +155,19 @@ const OrderAdmin = () => {
                         sorter: (a, b) => a.totalPrice.length - b.totalPrice.length,
                         ...getColumnSearchProps('totalPrice'),
                         },
+                        {
+                          title: 'Product Name',
+                          dataIndex: 'productName',
+                          sorter: (a, b) => a.product.length - b.product.length,
+                          ...getColumnSearchProps('productName'),
+                          },
+                        
   ];
 
   const dataTable = orders?.data?.length && orders?.data?.map((order) => {
       return {...order, key: order._id, userName: order?.shippingAddress?.fullName, phone: order?.shippingAddress?.phone , address: 
         order?.shippingAddress?.address, paymentMethod: orderContant.payment[order?.paymentMethod],isPaid: order?.isPaid ? 'TRUE' 
-      : 'FALSE',isDelivered: order?.isDelivered ? 'TRUE' : 'FALSE',totalPrice: convertPrice(order?.totalPrice) }
+      : 'FALSE',isDelivered: order?.isDelivered ? 'TRUE' : 'TRUE',totalPrice: convertPrice(order?.totalPrice) }
     })
 
   return (

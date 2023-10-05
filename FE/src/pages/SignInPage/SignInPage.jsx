@@ -127,7 +127,7 @@ const SignInPage = () => {
                 </WrapperContainerLeft>
       <WrapperContainerRight>
         <Image src={imageLogo} preview={false} alt="image-logo" height="203px" width="203px"/>
-        <h4>Mua Sắm Tại Webbanhang</h4>
+        <h4>hi lo </h4>
       </WrapperContainerRight>
     </div>
    </div>
