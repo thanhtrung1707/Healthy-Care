@@ -24,12 +24,7 @@ const MainProducts = () => {
 
   const [searchProduct, setSearchProduct] = useState("");
   const [selectedCategory, setSelectedCategory] = useState();
-  const [sortChoose] = useState([
-    "Latest added",
-    "Oldest added",
-    "Price: low -> high",
-    "Price: hight -> low",
-  ]);
+ 
   const [selectedSort, setSelectedSort] = useState();
 
   useEffect(() => {
