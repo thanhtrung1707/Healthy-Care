@@ -21,13 +21,8 @@ const ShopSection = () => {
 
   const [searchProduct, setSearchProduct] = useState("");
   const [selectedCategory, setSelectedCategory] = useState();
-  const [sortName] = useState([
-    "Latest added",
-    "Oldest added",
-    "Price: low -> high",
-    "Price: hight -> low",
-  ]);
-  const [selectedSort, setSelectedSort] = useState();
+
+  const [selectedSort] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage] = useState(9);
 
@@ -38,6 +33,7 @@ const ShopSection = () => {
   }, [dispatch]);
 
   // Search product
+  // eslint-disable-next-line array-callback-return
   const searchProducts = products?.filter((product) => {
     if (searchProduct === "") {
       return product;
@@ -65,9 +61,7 @@ const ShopSection = () => {
   const filterList = useMemo(getFilterList, [selectedCategory, searchProducts]);
 
   // Sort
-  const handleSortChange = (e) => {
-    setSelectedSort(e.target.value);
-  };
+
 
   const getSortList = () => {
     if (!selectedSort) {
