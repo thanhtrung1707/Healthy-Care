@@ -137,20 +137,7 @@ const ShopSection = () => {
                         </select>
                       )}
                     </div>
-                    <div className="col-lg-2 col-md-3 py-1">
-                      <select
-                        name="sort"
-                        className="form-select"
-                        onChange={handleSortChange}
-                      >
-                        <option value="">Select a sort</option>
-                        {sortName.map((name) => (
-                          <option value={name} key={name}>
-                            {name}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
+                
                   </div>
                 </header>
               </div>

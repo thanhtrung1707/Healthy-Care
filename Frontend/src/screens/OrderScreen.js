@@ -28,7 +28,7 @@ const OrderScreen = ({ match }) => {
   if (!loading) {
     // Calculater
     const addDecimals = (num) => {
-      return (Math.round(num * 100) / 100).toFixed(2);
+      return (Math.floor(num * 1) /1);
     };
 
     order.itemsPrice = addDecimals(
@@ -228,8 +228,8 @@ const OrderScreen = ({ match }) => {
                       <Loading />
                     ) : (
                       <PayPalButton
-                        amount={order.totalPrice}
-                        onSuccess={successPaymentHandler}
+                      amount={Math.round(order.totalPrice / 24000)}
+                      onSuccess={successPaymentHandler}
                       />
                     )}
                   </div>

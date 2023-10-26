@@ -38,6 +38,7 @@ const MainProducts = () => {
   }, [dispatch, successDelete, successDeleteImage]);
 
   // Search product
+  // eslint-disable-next-line array-callback-return
   const searchProducts = products?.filter((product) => {
     if (searchProduct === "") {
       return product;
@@ -132,20 +133,8 @@ const MainProducts = () => {
                 </select>
               )}
             </div>
-            <div className="col-lg-2 col-6 col-md-3">
-              <select
-                name="category"
-                className="form-select"
-                onChange={handleSortChange}
-              >
-                <option value="">Select a sort</option>
-                {sortChoose.map((sort) => (
-                  <option value={sort} key={sort}>
-                    {sort}
-                  </option>
-                ))}
-              </select>
-            </div>
+           
+           
           </div>
         </header>
 
