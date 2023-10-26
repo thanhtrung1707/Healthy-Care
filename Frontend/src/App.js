@@ -17,6 +17,7 @@ import ShippingScreen from "./screens/ShippingScreen";
 import SingleProduct from "./screens/SingleProduct";
 
 const App = () => {
+  
   return (
     <Router>
       <Switch>
