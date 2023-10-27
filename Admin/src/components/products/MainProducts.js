@@ -63,25 +63,9 @@ const MainProducts = () => {
 
  
 
-  const getSortList = () => {
-    if (!selectedSort) {
-      return filterList;
-    } else if (selectedSort === "Latest added") {
-      return filterList?.sort(
-        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-      );
-    } else if (selectedSort === "Oldest added") {
-      return filterList?.sort(
-        (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
-      );
-    } else if (selectedSort === "Price: low -> high") {
-      return filterList?.sort((a, b) => (a.price > b.price ? 1 : -1));
-    } else if (selectedSort === "Price: hight -> low") {
-      return filterList?.sort((a, b) => (a.price > b.price ? -1 : 1));
-    }
-  };
+ 
 
-  const sortList = useMemo(getSortList, [selectedSort, filterList]);
+  const sortList = useMemo( [selectedSort, filterList]);
 
   return (
     <section className="content-main">
