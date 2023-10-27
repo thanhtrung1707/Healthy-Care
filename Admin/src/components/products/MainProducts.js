@@ -61,10 +61,7 @@ const MainProducts = () => {
 
   const filterList = useMemo(getFilterList, [selectedCategory, searchProducts]);
 
-  // Sort
-  const handleSortChange = (e) => {
-    setSelectedSort(e.target.value);
-  };
+ 
 
   const getSortList = () => {
     if (!selectedSort) {
