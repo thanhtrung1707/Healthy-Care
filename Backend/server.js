@@ -1,4 +1,3 @@
-import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 import fileUpload from "express-fileupload";
@@ -10,12 +9,15 @@ import orderRouter from "./Routes/OrderRoutes.js";
 import productRouter from "./Routes/ProductRoutes.js";
 import uploadRouter from "./Routes/UploadRoutes.js";
 import userRouter from "./Routes/UserRoutes.js";
+import cors from 'cors';
+
 
 dotenv.config();
 connectDatabase();
 const app = express();
-app.use(express.json());
 app.use(cors());
+
+app.use(express.json());
 app.use(
     fileUpload({
         useTempFiles: true,
@@ -33,10 +35,12 @@ app.get("/api/config/paypal", (req, res) => {
     res.send(process.env.PAYPAL_CLIENT_ID);
 });
 
+
 // ERROR HANDLE
 app.use(notFound);
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 1000;
+
 
 app.listen(PORT, console.log(`Server run in port ${PORT}`));
