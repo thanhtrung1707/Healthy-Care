@@ -5,7 +5,9 @@ import Header from "./../components/Header";
 import Message from "./../components/LoadingError/Error";
 import Loading from "./../components/LoadingError/Loading";
 import { login } from "./../redux/Actions/UserActions";
-import { GoogleLogin } from "react-google-login";
+import { GoogleOAuthProvider } from '@react-oauth/google';
+import { GoogleLogin } from '@react-oauth/google';
+
 
 const Login = ({ location, history }) => {
   window.scrollTo(0, 0);
@@ -17,10 +19,7 @@ const Login = ({ location, history }) => {
 
   const userLogin = useSelector((state) => state.userLogin);
   const { error, loading, userInfo } = userLogin;
-  const responseGoogle = (response) => {
-    console.log(response);
-    // Xử lý dữ liệu phản hồi từ Google ở đây
-  };
+
 
   useEffect(() => {
     if (userInfo) {
@@ -56,13 +55,16 @@ const Login = ({ location, history }) => {
             onChange={(e) => setPassword(e.target.value)}
           />
           <button type="submit">Login</button>
+          <GoogleOAuthProvider clientId="486960350131-ni59gvk4mdcjjaonglqijgvln21lkft2.apps.googleusercontent.com">
           <GoogleLogin
-        clientId="486960350131-ni59gvk4mdcjjaonglqijgvln21lkft2.apps.googleusercontent.com"
-        buttonText="login in Google"
-        onSuccess={responseGoogle}
-        onFailure={responseGoogle} // Có thể xử lý lỗi ở đây nếu cần
-        cookiePolicy={'single_host_origin'}
-      />
+  onSuccess={credentialResponse => {
+    console.log(credentialResponse);
+  }}
+  onError={() => {
+    console.log('Login Failed');
+  }}
+/>;
+            </GoogleOAuthProvider>;
           
           <p>
             <Link

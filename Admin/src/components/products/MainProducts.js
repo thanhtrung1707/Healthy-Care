@@ -25,7 +25,7 @@ const MainProducts = () => {
   const [searchProduct, setSearchProduct] = useState("");
   const [selectedCategory, setSelectedCategory] = useState();
  
-  const [selectedSort, setSelectedSort] = useState();
+  const [selectedSort] = useState();
 
   useEffect(() => {
     dispatch(lisProducts());
@@ -60,12 +60,24 @@ const MainProducts = () => {
   };
 
   const filterList = useMemo(getFilterList, [selectedCategory, searchProducts]);
-
- 
-
- 
-
-  const sortList = useMemo( [selectedSort, filterList]);
+  const getSortList = () => {
+    if (!selectedSort) {
+      return filterList;
+    } else if (selectedSort === "Latest added") {
+      return filterList?.sort(
+        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+      );
+    } else if (selectedSort === "Oldest added") {
+      return filterList?.sort(
+        (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
+      );
+    } else if (selectedSort === "Price: low -> high") {
+      return filterList?.sort((a, b) => (a.price > b.price ? 1 : -1));
+    } else if (selectedSort === "Price: hight -> low") {
+      return filterList?.sort((a, b) => (a.price > b.price ? -1 : 1));
+    }
+  };
+  const sortList = useMemo( getSortList,[selectedSort, filterList]);
 
   return (
     <section className="content-main">
