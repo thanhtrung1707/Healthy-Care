@@ -43,7 +43,7 @@ const uploadImage = async (req, res) => {
         });
     } catch (err) {
         console.error("Error uploading image:", err);
-        return res.status(500).json({ msg: "Internal Server Error" });
+        return res.status(500).json({ msg: " Server Error" });
     }
 };
 
