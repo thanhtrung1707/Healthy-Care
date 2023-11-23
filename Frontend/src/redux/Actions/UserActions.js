@@ -1,5 +1,4 @@
 import axios from "axios";
-import { ORDER_LIST_MY_RESET } from "../Constants/OrderConstants";
 import {
   USER_DETAILS_FAIL,
   USER_DETAILS_REQUEST,
@@ -16,8 +15,9 @@ import {
   USER_UPDATE_PROFILE_REQUEST,
   USER_UPDATE_PROFILE_SUCCESS,
 } from "../Constants/UserConstants";
+import { ORDER_LIST_MY_RESET } from "../Constants/OrderConstants";
 
-// Login
+// Action creator for regular login
 export const login = (email, password) => async (dispatch) => {
   try {
     dispatch({ type: USER_LOGIN_REQUEST });
@@ -47,17 +47,44 @@ export const login = (email, password) => async (dispatch) => {
   }
 };
 
-// Logout
+// Action creator for Google login
+export const loginWithGoogle = (email, googleId, tokenId) => async (dispatch) => {
+  try {
+    dispatch({ type: USER_LOGIN_REQUEST });
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    const { data } = await axios.post(
+      `/api/users/googlelogin`,
+      { email, googleId, tokenId },
+      config
+    );
+    dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
+
+    localStorage.setItem("userInfo", JSON.stringify(data));
+  } catch (error) {
+    dispatch({
+      type: USER_LOGIN_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
 export const logout = () => (dispatch) => {
   localStorage.removeItem("userInfo");
   dispatch({ type: USER_LOGOUT });
   dispatch({ type: USER_DETAILS_RESET });
   dispatch({ type: ORDER_LIST_MY_RESET });
-  // Optional
   document.location.href = "/login";
 };
 
-// Register
 export const register = (name, email, password) => async (dispatch) => {
   try {
     dispatch({ type: USER_REGISTER_REQUEST });
@@ -88,7 +115,6 @@ export const register = (name, email, password) => async (dispatch) => {
   }
 };
 
-// Details
 export const getUserDetails = (id) => async (dispatch, getState) => {
   try {
     dispatch({ type: USER_DETAILS_REQUEST });
@@ -119,7 +145,6 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
   }
 };
 
-// Update profile
 export const updateUserProfile = (user) => async (dispatch, getState) => {
   try {
     dispatch({ type: USER_UPDATE_PROFILE_REQUEST });

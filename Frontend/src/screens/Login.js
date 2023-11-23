@@ -5,12 +5,10 @@ import Header from "./../components/Header";
 import Message from "./../components/LoadingError/Error";
 import Loading from "./../components/LoadingError/Loading";
 import { login } from "./../redux/Actions/UserActions";
-import { GoogleOAuthProvider } from '@react-oauth/google';
-import { GoogleLogin } from '@react-oauth/google';
-
+import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
+import { jwtDecode } from "jwt-decode";
 
 const Login = ({ location, history }) => {
-  window.scrollTo(0, 0);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -20,12 +18,20 @@ const Login = ({ location, history }) => {
   const userLogin = useSelector((state) => state.userLogin);
   const { error, loading, userInfo } = userLogin;
 
-
   useEffect(() => {
     if (userInfo) {
       history.push(redirect);
     }
   }, [userInfo, history, redirect]);
+
+  const handleGoogleLoginSuccess = (credentialResponse) => {
+    const decoded = jwtDecode(credentialResponse.credential);
+    console.log(decoded);
+  };
+
+  const handleGoogleLoginError = () => {
+    console.log('Login Failed');
+  };
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -55,17 +61,14 @@ const Login = ({ location, history }) => {
             onChange={(e) => setPassword(e.target.value)}
           />
           <button type="submit">Login</button>
+
           <GoogleOAuthProvider clientId="486960350131-ni59gvk4mdcjjaonglqijgvln21lkft2.apps.googleusercontent.com">
-          <GoogleLogin
-  onSuccess={credentialResponse => {
-    console.log(credentialResponse);
-  }}
-  onError={() => {
-    console.log('Login Failed');
-  }}
-/>;
-            </GoogleOAuthProvider>;
-          
+            <GoogleLogin
+              onSuccess={handleGoogleLoginSuccess}
+              onError={handleGoogleLoginError}
+            />
+          </GoogleOAuthProvider>
+
           <p>
             <Link
               to={redirect ? `/register?redirect=${redirect}` : "/register"}
