@@ -16,6 +16,7 @@ import Register from "./screens/Register";
 import ShippingScreen from "./screens/ShippingScreen";
 import SingleProduct from "./screens/SingleProduct";
 
+
 const App = () => {
   
   return (
