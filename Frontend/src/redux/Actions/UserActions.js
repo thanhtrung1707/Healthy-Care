@@ -2,8 +2,8 @@ import axios from "axios";
 import {
   USER_DETAILS_FAIL,
   USER_DETAILS_REQUEST,
-  USER_DETAILS_RESET,
   USER_DETAILS_SUCCESS,
+  USER_DETAILS_RESET,
   USER_LOGIN_FAIL,
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
@@ -47,32 +47,34 @@ export const login = (email, password) => async (dispatch) => {
   }
 };
 
-// Action creator for Google login
+// Action creator cho đăng nhập bằng Google
 export const loginWithGoogle = (email, googleId, tokenId) => async (dispatch) => {
   try {
     dispatch({ type: USER_LOGIN_REQUEST });
 
     const config = {
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     };
 
     const { data } = await axios.post(
-      `/api/users/googlelogin`,
+      '/api/auth/google',
       { email, googleId, tokenId },
       config
     );
-    dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
 
-    localStorage.setItem("userInfo", JSON.stringify(data));
+    // Giả sử phản hồi từ backend chứa thông tin người dùng sau khi đăng nhập bằng Google
+    // Thực hiện dispatch action USER_LOGIN_SUCCESS với dữ liệu phản hồi để lưu thông tin người dùng vào Redux Store và Local Storage
+    dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
+    localStorage.setItem('userInfo', JSON.stringify(data));
   } catch (error) {
+    // Trường hợp xảy ra lỗi, dispatch action USER_LOGIN_FAIL với thông báo lỗi tương ứng
     dispatch({
       type: USER_LOGIN_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
+      payload: error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message,
     });
   }
 };

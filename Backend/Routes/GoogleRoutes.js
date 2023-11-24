@@ -1,40 +1,77 @@
 import express from 'express';
-import passport from 'passport';
-import dotenv from "dotenv";
+import User from '../Models/UserModel.js';
+import asyncHandler from 'express-async-handler';
+import { protect } from '../Middleware/AuthMiddleware.js';
+import generateToken from '../utils/generateToken.js';
 
 const googleRouter = express.Router();
 
-googleRouter.get("/login/success", (req, res) => {
-	if (req.user) {
-		res.status(200).json({
-			error: false,
-			message: "Successfully Loged In",
-			user: req.user,
-		});
-	} else {
-		res.status(403).json({ error: true, message: "Not Authorized" });
-	}
-});
+// Route để xử lý đăng nhập Google
+googleRouter.post('/', asyncHandler(async (req, res) => {
+  const { email, name } = req.body;
 
-googleRouter.get("/login/failed", (req, res) => {
-	res.status(401).json({
-		error: true,
-		message: "Log in failure",
-	});
-});
+  try {
+    console.log(email);
+    const user = await User.findOne({ email });
+  
+    return res.status(201).json({
+      
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      isAdmin: user.isAdmin,
+      token: generateToken(user._id),
+      createdAt: user.createdAt,
+  });
+  } catch (error) {
+    console.error('Error saving user data:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+}));
 
-googleRouter.get("/google", passport.authenticate("google", ["profile", "email"]));
+// Route để lấy thông tin người dùng
+googleRouter.get('/profile', protect, asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id);
 
-googleRouter.get(
-	"/google/callback",
-	passport.authenticate("google", {
-		failureRedirect: "/login/failed",
-	})
-);
+  if (user) {
+    res.json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      isAdmin: user.isAdmin,
+      createdAt: user.createdAt,
+    });
+  } else {
+    res.status(404);
+    throw new Error('User not found');
+  }
+}));
 
-googleRouter.get("/logout", (req, res) => {
-	req.logout();
-	res.redirect(process.env.CLIENT_URL);
-});
+// Route để cập nhật thông tin người dùng
+googleRouter.put('/profile', protect, asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id);
+
+  if (user) {
+    user.name = req.body.name || user.name;
+    user.email = req.body.email || user.email;
+
+    if (req.body.password) {
+      user.password = req.body.password;
+    }
+
+    const updatedUser = await user.save();
+    res.json({
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      isAdmin: updatedUser.isAdmin,
+      createdAt: updatedUser.createdAt,
+      token: generateToken(updatedUser._id),
+    });
+  } else {
+    res.status(404);
+    throw new Error('User not found');
+  }
+}));
 
 export default googleRouter;

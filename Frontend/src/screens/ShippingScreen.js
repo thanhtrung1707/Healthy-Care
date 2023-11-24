@@ -7,7 +7,6 @@ const ShippingScreen = ({ history }) => {
   const cart = useSelector((state) => state.cart);
   const { shippingAddress } = cart;
 
-  const [name, setName] = useState(shippingAddress.name || '');
   const [address, setAddress] = useState(shippingAddress.address || '');
   const [city, setCity] = useState(shippingAddress.city || '');
   const [phoneNumber, setPhoneNumber] = useState(shippingAddress.phoneNumber || '');
@@ -17,7 +16,7 @@ const ShippingScreen = ({ history }) => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(saveShippingAddress({ name, address, city, phoneNumber, comment }));
+    dispatch(saveShippingAddress({  address, city, phoneNumber, comment }));
     history.push("/payment");
   };
 
@@ -30,13 +29,7 @@ const ShippingScreen = ({ history }) => {
           onSubmit={submitHandler}
         >
           <h6>DELIVERY ADDRESS</h6>
-          <input
-            type="text"
-            placeholder="Enter Name"
-            value={name}
-            required
-            onChange={(e) => setName(e.target.value)}
-          />
+         
           <input
             type="text"
             placeholder="Enter address"
