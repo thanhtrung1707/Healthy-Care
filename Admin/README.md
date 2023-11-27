@@ -2,6 +2,6 @@
 
 To run this project in your local machine:
 
-- `cd .\Backend\`
+- `cd .\Admin\`
 - Run `npm install` to install the dependencies
 - Run `npm start` to serve the app on your local machine.
